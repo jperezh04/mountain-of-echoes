@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="MountainOfEchoes"
-run/main_scene="res://scenes/levels/level_01.tscn"
+run/main_scene="res://scenes/levels/Level_01.tscn"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 
