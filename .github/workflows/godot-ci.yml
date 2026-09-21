@@ -1,13 +1,20 @@
 name: Godot CI
 
+run-name: Validate ${{ github.ref_name }} by @${{ github.actor }}
+
 on:
   push:
     branches:
       - main
+      - "feature/**"
   pull_request:
     branches:
       - main
   workflow_dispatch:
+
+concurrency:
+  group: godot-ci-${{ github.ref }}
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -16,10 +23,37 @@ jobs:
   validate-project:
     name: Validate Godot project
     runs-on: ubuntu-latest
+    timeout-minutes: 10
 
     steps:
       - name: Download repository
         uses: actions/checkout@v4
+
+      - name: Validate repository structure
+        shell: bash
+        run: |
+          if [ ! -f "project.godot" ]; then
+            echo "::error::project.godot was not found"
+            exit 1
+          fi
+
+          if git ls-files | grep -q "^\.godot/"; then
+            echo "::error::.godot must not be committed"
+            exit 1
+          fi
+
+      - name: Reject oversized files
+        shell: bash
+        run: |
+          large_files=$(find . -type f \
+            -not -path "./.git/*" \
+            -size +50M -print)
+
+          if [ -n "$large_files" ]; then
+            echo "::error::Files larger than 50 MB were found:"
+            echo "$large_files"
+            exit 1
+          fi
 
       - name: Install Godot
         uses: chickensoft-games/setup-godot@v2
@@ -31,5 +65,28 @@ jobs:
       - name: Show Godot version
         run: godot --version
 
-      - name: Import and validate project
-        run: godot --headless --editor --path . --quit
+      - name: Import Godot project
+        shell: bash
+        run: |
+          set -o pipefail
+          godot --headless --editor --path . --quit --verbose 2>&1 \
+            | tee godot-import.log
+
+      - name: Detect critical Godot errors
+        shell: bash
+        run: |
+          if grep -E \
+            "SCRIPT ERROR|Parse Error|Failed loading resource|Cannot open file" \
+            godot-import.log; then
+            echo "::error::Critical Godot errors were detected"
+            exit 1
+          fi
+
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: godot-validation-log
+          path: godot-import.log
+          if-no-files-found: ignore
+          retention-days: 7
