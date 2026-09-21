@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coril7nkylr2d"
-path="res://.godot/imported/VISTA_PREVIA.png-1f99ac1aed56de987f05f23172cfe373.ctex"
+uid="uid://cgf572uddiekn"
+path="res://.godot/imported/terrain.png-ceb380d3eee0a5198c01a4a82da541bb.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://moe_snow_demo/VISTA_PREVIA.png"
-dest_files=["res://.godot/imported/VISTA_PREVIA.png-1f99ac1aed56de987f05f23172cfe373.ctex"]
+source_file="res://moe_editable/art/terrain.png"
+dest_files=["res://.godot/imported/terrain.png-ceb380d3eee0a5198c01a4a82da541bb.ctex"]
 
 [params]
 

@@ -1,0 +1,30 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/guardian.gd" id="1_k8lwo"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_onebe"]
+radius = 15.0
+
+[node name="Guardian" type="CharacterBody2D"]
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_k8lwo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_onebe")
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Body" type="Polygon2D" parent="Visual"]
+color = Color(0.5058824, 0.90588236, 0.8745098, 1)
+polygon = PackedVector2Array(-14, 6, -13, -10, 0, -23, 13, -10, 14, 6, 7, 3, 0, 10, -7, 3)
+
+[node name="Face" type="Polygon2D" parent="Visual"]
+color = Color(0.1254902, 0.20784314, 0.32156864, 1)
+polygon = PackedVector2Array(-9, -9, 9, -9, 9, 0, -9, 0)
+
+[node name="LeftEye" type="Polygon2D" parent="Visual"]
+polygon = PackedVector2Array(-6, -7, -3, -7, -3, -4, -6, -4)
+
+[node name="RightEye" type="Polygon2D" parent="Visual"]
+polygon = PackedVector2Array(3, -7, 6, -7, 6, -4, 3, -4)
