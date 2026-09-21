@@ -1,0 +1,31 @@
+[gd_scene format=3]
+
+[node name="Pine" type="Node2D"]
+
+[node name="Trunk" type="Polygon2D" parent="."]
+color = Color(0.23529412, 0.2901961, 0.38039216, 1)
+polygon = PackedVector2Array(-4, -50, 4, -50, 4, 0, -4, 0)
+
+[node name="Branch0" type="Polygon2D" parent="."]
+color = Color(0.14117648, 0.27450982, 0.32941177, 1)
+polygon = PackedVector2Array(0, -105, -23, -52, 23, -52)
+
+[node name="Snow0" type="Polygon2D" parent="."]
+color = Color(0.68235296, 0.8117647, 0.8509804, 1)
+polygon = PackedVector2Array(0, -105, -16.56, -71, 16.56, -71)
+
+[node name="Branch1" type="Polygon2D" parent="."]
+color = Color(0.14117648, 0.27450982, 0.32941177, 1)
+polygon = PackedVector2Array(0, -80, -33, -27, 33, -27)
+
+[node name="Snow1" type="Polygon2D" parent="."]
+color = Color(0.68235296, 0.8117647, 0.8509804, 1)
+polygon = PackedVector2Array(0, -80, -23.76, -46, 23.76, -46)
+
+[node name="Branch2" type="Polygon2D" parent="."]
+color = Color(0.14117648, 0.27450982, 0.32941177, 1)
+polygon = PackedVector2Array(0, -55, -43, -2, 43, -2)
+
+[node name="Snow2" type="Polygon2D" parent="."]
+color = Color(0.68235296, 0.8117647, 0.8509804, 1)
+polygon = PackedVector2Array(0, -55, -30.96, -21, 30.96, -21)

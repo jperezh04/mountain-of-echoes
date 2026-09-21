@@ -1,0 +1,29 @@
+PARCHE: NIVEL VISIBLE EN EL EDITOR 2D
+
+1. Guarda tus cambios y cierra Godot.
+2. Copia la carpeta moe_snow_demo del ZIP junto a project.godot.
+3. Acepta reemplazar scripts/level.gd.
+4. Abre Godot y la escena moe_snow_demo/snow_demo.tscn.
+5. Selecciona la vista 2D. El terreno, panda, guardianes, refugios, runas,
+   ecos y santuario se dibujan sin ejecutar el juego.
+
+Para ver todo el recorrido, reduce el zoom y desplázate hacia la derecha.
+El nivel abarca desde x=0 hasta x=4320.
+
+Selecciona el nodo raíz SnowDemo y busca Vista previa del nivel en el Inspector:
+- Mostrar vista previa: activa/desactiva el dibujo del nivel en el editor.
+- Mostrar radios: dibuja la detección de 210 unidades de los guardianes.
+
+Es una PREVISUALIZACIÓN del nivel generado por código. Los elementos dibujados
+no son nodos individuales seleccionables y no se pueden arrastrar con el ratón.
+Los datos del diseño siguen en scripts/level.gd. F6 ejecuta la escena normalmente,
+incluido el fondo, la interfaz, el audio y el movimiento.
+
+Este parche necesita el paquete original instalado. No incluye los assets ni
+reemplaza project.godot. Es compatible con el parche de audio anterior.
+Reemplaza level.gd: si lo editaste manualmente, conserva antes una copia.
+
+Usa @tool y Engine.is_editor_hint() para separar previsualización y juego.
+Referencia: https://docs.godotengine.org/en/stable/tutorials/plugins/running_code_in_the_editor.html
+Probado en el editor Godot 4.5.1 y con 13 comprobaciones de juego; pendiente
+de ejecución en Godot 4.7.2 en tu equipo.

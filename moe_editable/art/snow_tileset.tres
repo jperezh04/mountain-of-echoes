@@ -1,0 +1,20 @@
+[gd_resource type="TileSet" format=3 uid="uid://btng36lmxbt1u"]
+
+[ext_resource type="Texture2D" uid="uid://cgf572uddiekn" path="res://moe_editable/art/terrain.png" id="1_n20tj"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_jebha"]
+texture = ExtResource("1_n20tj")
+7:0/0 = 0
+7:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+7:1/0 = 0
+7:1/0/modulate = Color(0.5019608, 0.60784316, 0.7176471, 1)
+7:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:0/0 = 0
+8:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+8:1/0 = 0
+8:1/0/modulate = Color(0.5019608, 0.60784316, 0.7176471, 1)
+8:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[resource]
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_jebha")

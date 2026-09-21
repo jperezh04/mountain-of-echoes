@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/item.gd" id="1_haw1x"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uhq8"]
+
+[node name="Echo" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_haw1x")
+kind = "echo"
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Crystal" type="Polygon2D" parent="Visual"]
+color = Color(1, 0.85882354, 0.58431375, 1)
+polygon = PackedVector2Array(0, -7, 4.55, 0, 0, 7, -4.55, 0)
+
+[node name="Highlight" type="Polygon2D" parent="Visual"]
+polygon = PackedVector2Array(0, -5, 2, 0, -2, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0uhq8")
