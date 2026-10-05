@@ -3,6 +3,8 @@ var camera_x := 0.0
 var elapsed := 0.0
 var flakes: Array[Vector3] = []
 
+var wind_factor := 1.0
+
 func _ready() -> void:
 	var rng := RandomNumberGenerator.new()
 	rng.seed = 2048
@@ -31,8 +33,9 @@ func _draw() -> void:
 			draw_colored_polygon(PackedVector2Array([Vector2(x + 70, peak), Vector2(x + 115, peak + 65), Vector2(x + 84, peak + 49), Vector2(x + 61, peak + 64), Vector2(x + 26, peak + 67)]), Color("aac5d5").darkened(layer * 0.17))
 	# Thin drifting cloud bands, behind all gameplay.
 	for i in range(4):
-		draw_rect(Rect2(fposmod(i * 273 - elapsed * 4 - camera_x * 0.03, 1050) - 200, 114 + i * 52, 240, 2), Color(0.75, 0.93, 1, 0.06))
+		draw_rect(Rect2(fposmod(i * 273 - elapsed * 4 * wind_factor - camera_x * 0.03, 1050) - 200, 114 + i * 52, 240, 2), Color(0.75, 0.93, 1, 0.06))
 	for flake in flakes:
-		var x := fposmod(flake.x + elapsed * 12 * flake.z - camera_x * 0.07, 820) - 10
-		var y := fposmod(flake.y + elapsed * 22 * flake.z, 450)
+		var x := fposmod(flake.x + elapsed * 14 * flake.z * wind_factor - camera_x * 0.07, 820) - 10
+		var y := fposmod(flake.y + elapsed * 22 * flake.z * (0.8 + 0.2 * wind_factor), 450)
 		draw_rect(Rect2(x, y, flake.z * 2, flake.z * 2), Color(0.85, 0.96, 1, 0.5))
+
