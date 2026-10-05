@@ -1,6 +1,6 @@
 [gd_scene load_steps=37 format=3]
 
-[ext_resource type="Script" path="res://moe_editable/scripts/player.gd" id="1_w30ib"]
+[ext_resource type="Script" path="res://moe_editable/scripts/echo_shadow.gd" id="1_w30ib"]
 [ext_resource type="Texture2D" path="res://moe_editable/art/panda.png" id="2_4skfm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pdym7"]
@@ -157,10 +157,10 @@ animations = [{
 "speed": 12.0
 }]
 
-[node name="Player" type="CharacterBody2D"]
+[node name="EchoShadow" type="Area2D"]
 texture_filter = 1
-collision_layer = 2
-floor_snap_length = 5.0
+collision_layer = 0
+collision_mask = 2
 script = ExtResource("1_w30ib")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -168,16 +168,9 @@ position = Vector2(0, -14)
 shape = SubResource("RectangleShape2D_pdym7")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.25, 0.1, 0.45, 0.7)
 position = Vector2(0, -32)
 scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_53eu1")
 animation = &"idle"
 
-[node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(90, -100)
-limit_left = 0
-limit_top = -120
-limit_right = 4320
-limit_bottom = 680
-position_smoothing_enabled = true
-position_smoothing_speed = 6.0

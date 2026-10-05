@@ -98,6 +98,8 @@ func _physics_process(delta: float) -> void:
 		if target.velocity.y > 70 and target.global_position.y < global_position.y - 5:
 			stun()
 			target.velocity.y = -370
+			if target.has_method("on_stomp"):
+				target.on_stomp()
 		else:
 			target.take_hit()
 	queue_redraw()
@@ -105,12 +107,18 @@ func _physics_process(delta: float) -> void:
 func stun() -> void:
 	state = State.STUNNED
 	stunned_time = 3.5
+	if has_node("Visual"):
+		var tw := create_tween()
+		tw.tween_property($Visual, "scale", Vector2(1.45, 0.55), 0.08)
+		tw.tween_property($Visual, "scale", Vector2.ONE, 0.16)
 
 func reset_guardian() -> void:
 	global_position = home
 	velocity = Vector2.ZERO
 	state = State.WANDER
 	lost_time = 0
+	if has_node("Visual"):
+		$Visual.scale = Vector2.ONE
 
 func _draw() -> void:
 	var tint := Color("81e7df")
