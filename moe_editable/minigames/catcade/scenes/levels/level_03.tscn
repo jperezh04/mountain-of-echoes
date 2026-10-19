@@ -1,0 +1,208 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcatlvl03"]
+
+[ext_resource type="PackedScene" uid="uid://bdestruct01" path="res://moe_editable/minigames/catcade/prefabs/destructible_block.tscn" id="1_block"]
+[ext_resource type="PackedScene" uid="uid://banimalenem01" path="res://moe_editable/minigames/catcade/prefabs/animal_enemy.tscn" id="2_enemy"]
+
+[node name="Level03" type="Node2D"]
+
+[node name="L_StoneSlab" parent="." instance=ExtResource("1_block")]
+position = Vector2(368, 274)
+material_type = 1
+block_shape = 0
+custom_size = Vector2(44, 12)
+
+[node name="L_WoodBox" parent="." instance=ExtResource("1_block")]
+position = Vector2(368, 256)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(24, 24)
+
+[node name="L_WoodPlank" parent="." instance=ExtResource("1_block")]
+position = Vector2(368, 240)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(42, 8)
+
+[node name="L_IceTriangle" parent="." instance=ExtResource("1_block")]
+position = Vector2(368, 222)
+material_type = 2
+block_shape = 3
+custom_size = Vector2(32, 28)
+
+[node name="C_StoneSlab1" parent="." instance=ExtResource("1_block")]
+position = Vector2(428, 274)
+material_type = 1
+block_shape = 0
+custom_size = Vector2(38, 12)
+
+[node name="C_StoneSlab2" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 274)
+material_type = 1
+block_shape = 0
+custom_size = Vector2(38, 12)
+
+[node name="C_StoneSlab3" parent="." instance=ExtResource("1_block")]
+position = Vector2(508, 274)
+material_type = 1
+block_shape = 0
+custom_size = Vector2(38, 12)
+
+[node name="C_ColLeft" parent="." instance=ExtResource("1_block")]
+position = Vector2(420, 242)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="C_ColMid" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 242)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="C_ColRight" parent="." instance=ExtResource("1_block")]
+position = Vector2(516, 242)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="C_DeckWood1" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 212)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(110, 8)
+
+[node name="C_DeckWood2" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 204)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(110, 8)
+
+[node name="C_BoxL1" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 190)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxL2" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 171)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxL3" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 152)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxL4" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 133)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxR1" parent="." instance=ExtResource("1_block")]
+position = Vector2(502, 190)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxR2" parent="." instance=ExtResource("1_block")]
+position = Vector2(502, 171)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxR3" parent="." instance=ExtResource("1_block")]
+position = Vector2(502, 152)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_BoxR4" parent="." instance=ExtResource("1_block")]
+position = Vector2(502, 133)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(20, 19)
+
+[node name="C_UpperDeckWood" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 119)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(96, 8)
+
+[node name="C_CabinIceL" parent="." instance=ExtResource("1_block")]
+position = Vector2(440, 97)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 36)
+
+[node name="C_CabinIceR" parent="." instance=ExtResource("1_block")]
+position = Vector2(496, 97)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 36)
+
+[node name="EnemyTopTower" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(468, 99)
+enemy_type = 1
+
+[node name="C_CabinRoofWood" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 75)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(68, 8)
+
+[node name="C_CrownIceTriangle" parent="." instance=ExtResource("1_block")]
+position = Vector2(468, 55)
+material_type = 2
+block_shape = 3
+custom_size = Vector2(36, 32)
+
+[node name="R_StoneSlab" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 274)
+material_type = 1
+block_shape = 0
+custom_size = Vector2(52, 12)
+
+[node name="R_ColLeft" parent="." instance=ExtResource("1_block")]
+position = Vector2(556, 250)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 36)
+
+[node name="R_ColRight" parent="." instance=ExtResource("1_block")]
+position = Vector2(592, 250)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 36)
+
+[node name="R_LowerPlank" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 228)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(50, 8)
+
+[node name="R_WoodBox1" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 214)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(22, 20)
+
+[node name="R_WoodBox2" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 194)
+material_type = 0
+block_shape = 2
+custom_size = Vector2(22, 20)
+
+[node name="R_UpperPlank" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 180)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(44, 8)
+
+[node name="R_IceTriangle" parent="." instance=ExtResource("1_block")]
+position = Vector2(574, 162)
+material_type = 2
+block_shape = 3
+custom_size = Vector2(32, 28)

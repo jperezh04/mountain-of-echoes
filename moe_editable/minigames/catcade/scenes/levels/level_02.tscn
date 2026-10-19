@@ -1,0 +1,228 @@
+[gd_scene load_steps=3 format=3 uid="uid://bcatlvl02"]
+
+[ext_resource type="PackedScene" uid="uid://bdestruct01" path="res://moe_editable/minigames/catcade/prefabs/destructible_block.tscn" id="1_block"]
+[ext_resource type="PackedScene" uid="uid://banimalenem01" path="res://moe_editable/minigames/catcade/prefabs/animal_enemy.tscn" id="2_enemy"]
+
+[node name="Level02" type="Node2D"]
+
+[node name="L_OuterIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(342, 254)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 52)
+
+[node name="L_LeftWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(352, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="L_RightWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(400, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="EnemyLeft" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(376, 266)
+enemy_type = 0
+
+[node name="L_DeckWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(376, 223)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(74, 10)
+
+[node name="L_UpperLeftIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(346, 195)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 46)
+
+[node name="L_UpperRightIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(406, 195)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 46)
+
+[node name="L_StoneBox1" parent="." instance=ExtResource("1_block")]
+position = Vector2(366, 209)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="L_StoneBox2" parent="." instance=ExtResource("1_block")]
+position = Vector2(386, 209)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="L_StoneBox3" parent="." instance=ExtResource("1_block")]
+position = Vector2(376, 191)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="L_RoofIceH" parent="." instance=ExtResource("1_block")]
+position = Vector2(376, 168)
+material_type = 2
+block_shape = 0
+custom_size = Vector2(70, 8)
+
+[node name="L_CrenelLeft" parent="." instance=ExtResource("1_block")]
+position = Vector2(352, 157)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(12, 14)
+
+[node name="L_CrenelRight" parent="." instance=ExtResource("1_block")]
+position = Vector2(400, 157)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(12, 14)
+
+[node name="C_LeftWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="C_RightWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(494, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="EnemyCenter" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(464, 264)
+enemy_type = 1
+
+[node name="C_DeckWoodH1" parent="." instance=ExtResource("1_block")]
+position = Vector2(464, 223)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(74, 10)
+
+[node name="C_DeckWoodH2" parent="." instance=ExtResource("1_block")]
+position = Vector2(464, 213)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(56, 10)
+
+[node name="C_SpireLeftIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(448, 184)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 48)
+
+[node name="C_SpireCenterStoneV" parent="." instance=ExtResource("1_block")]
+position = Vector2(464, 184)
+material_type = 1
+block_shape = 1
+custom_size = Vector2(14, 48)
+
+[node name="C_SpireRightIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(480, 184)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 48)
+
+[node name="C_SpireCapWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(464, 156)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(46, 8)
+
+[node name="C_SpireTopStone" parent="." instance=ExtResource("1_block")]
+position = Vector2(464, 141)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(16, 22)
+
+[node name="C_SpireCrenelL" parent="." instance=ExtResource("1_block")]
+position = Vector2(448, 145)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(10, 14)
+
+[node name="C_SpireCrenelR" parent="." instance=ExtResource("1_block")]
+position = Vector2(480, 145)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(10, 14)
+
+[node name="R_LeftWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(528, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="R_RightWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(576, 254)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 52)
+
+[node name="R_OuterIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(586, 254)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 52)
+
+[node name="EnemyRight" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(552, 266)
+enemy_type = 2
+
+[node name="R_DeckWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(552, 223)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(74, 10)
+
+[node name="R_UpperLeftIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(522, 195)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 46)
+
+[node name="R_UpperRightIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(582, 195)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 46)
+
+[node name="R_StoneBox1" parent="." instance=ExtResource("1_block")]
+position = Vector2(542, 209)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="R_StoneBox2" parent="." instance=ExtResource("1_block")]
+position = Vector2(562, 209)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="R_StoneBox3" parent="." instance=ExtResource("1_block")]
+position = Vector2(552, 191)
+material_type = 1
+block_shape = 2
+custom_size = Vector2(18, 18)
+
+[node name="R_RoofIceH" parent="." instance=ExtResource("1_block")]
+position = Vector2(552, 168)
+material_type = 2
+block_shape = 0
+custom_size = Vector2(70, 8)
+
+[node name="R_CrenelLeft" parent="." instance=ExtResource("1_block")]
+position = Vector2(528, 157)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(12, 14)
+
+[node name="R_CrenelRight" parent="." instance=ExtResource("1_block")]
+position = Vector2(576, 157)
+material_type = 2
+block_shape = 2
+custom_size = Vector2(12, 14)

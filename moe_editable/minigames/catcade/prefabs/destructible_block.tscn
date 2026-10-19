@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://bdestruct01"]
+
+[ext_resource type="Script" path="res://moe_editable/minigames/catcade/scripts/destructible.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://moe_editable/minigames/catcade/assets/structures/wood_beam_h.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(64, 14)
+
+[node name="DestructibleBlock" type="RigidBody2D"]
+collision_layer = 16
+collision_mask = 16
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 6
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_tex")

@@ -1,0 +1,137 @@
+[gd_scene load_steps=5 format=3 uid="uid://bcatlvl01"]
+
+[ext_resource type="PackedScene" uid="uid://bdestruct01" path="res://moe_editable/minigames/catcade/prefabs/destructible_block.tscn" id="1_block"]
+[ext_resource type="PackedScene" uid="uid://banimalenem01" path="res://moe_editable/minigames/catcade/prefabs/animal_enemy.tscn" id="2_enemy"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pedestal_top"]
+size = Vector2(96, 10)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pedestal_leg"]
+size = Vector2(14, 26)
+
+[node name="Level01" type="Node2D"]
+
+[node name="WoodPedestal" type="StaticBody2D" parent="."]
+position = Vector2(460, 244)
+collision_layer = 16
+collision_mask = 16
+
+[node name="TopCollision" type="CollisionShape2D" parent="WoodPedestal"]
+position = Vector2(0, 5)
+shape = SubResource("RectangleShape2D_pedestal_top")
+
+[node name="LeftLegCollision" type="CollisionShape2D" parent="WoodPedestal"]
+position = Vector2(-34, 23)
+shape = SubResource("RectangleShape2D_pedestal_leg")
+
+[node name="RightLegCollision" type="CollisionShape2D" parent="WoodPedestal"]
+position = Vector2(34, 23)
+shape = SubResource("RectangleShape2D_pedestal_leg")
+
+[node name="PedestalTopRect" type="ColorRect" parent="WoodPedestal"]
+offset_left = -48.0
+offset_top = 0.0
+offset_right = 48.0
+offset_bottom = 10.0
+mouse_filter = 2
+color = Color(0.55, 0.28, 0.1, 1)
+
+[node name="PedestalLeftLeg" type="ColorRect" parent="WoodPedestal"]
+offset_left = -41.0
+offset_top = 10.0
+offset_right = -27.0
+offset_bottom = 36.0
+mouse_filter = 2
+color = Color(0.46, 0.22, 0.08, 1)
+
+[node name="PedestalRightLeg" type="ColorRect" parent="WoodPedestal"]
+offset_left = 27.0
+offset_top = 10.0
+offset_right = 41.0
+offset_bottom = 36.0
+mouse_filter = 2
+color = Color(0.46, 0.22, 0.08, 1)
+
+[node name="PedestalCrossBar" type="ColorRect" parent="WoodPedestal"]
+offset_left = -30.0
+offset_top = 26.0
+offset_right = 30.0
+offset_bottom = 34.0
+mouse_filter = 2
+color = Color(0.38, 0.18, 0.06, 1)
+
+[node name="OuterLeftWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(424, 217)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 54)
+
+[node name="OuterRightWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(496, 217)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 54)
+
+[node name="InnerBottomWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 240)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(48, 8)
+
+[node name="InnerLeftIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(445, 219)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 34)
+
+[node name="InnerRightIceV" parent="." instance=ExtResource("1_block")]
+position = Vector2(475, 219)
+material_type = 2
+block_shape = 1
+custom_size = Vector2(8, 34)
+
+[node name="InnerTopWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 198)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(48, 8)
+
+[node name="MiddleDeckWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 185)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(86, 10)
+
+[node name="SeatWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 175)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(28, 10)
+
+[node name="EnemyDoge" parent="." instance=ExtResource("2_enemy")]
+position = Vector2(460, 156)
+enemy_type = 0
+
+[node name="UpperLeftWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(434, 153)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 54)
+
+[node name="UpperRightWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(486, 153)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 54)
+
+[node name="RoofWoodH" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 121)
+material_type = 0
+block_shape = 0
+custom_size = Vector2(66, 10)
+
+[node name="TopPegWoodV" parent="." instance=ExtResource("1_block")]
+position = Vector2(460, 104)
+material_type = 0
+block_shape = 1
+custom_size = Vector2(10, 24)

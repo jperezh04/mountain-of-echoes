@@ -97,20 +97,16 @@ func _evaluate_adaptation(current_time: float) -> void:
 		new_profile = "EN DIFICULTAD"
 		new_adaptation = "ALIENTO SERENO"
 		new_scale = GRAVITY_LOW
-		message = "❄️ Un aliento sereno desciende: la montaña aligera tus saltos."
 	# Regla 2: Agresivo / Uso intensivo de dash
 	elif recent_dashes >= 3:
 		new_profile = "ÁGIL / IMPETUOSO"
 		new_adaptation = "VIENTO GÉLIDO"
 		new_scale = GRAVITY_HIGH
-		message = "🌬️ El viento de la cumbre arrecia: la montaña se vuelve pesada."
 	# Regla 3: Explorador / Calma
 	else:
 		new_profile = "EXPLORADOR"
 		new_adaptation = "CALMA"
 		new_scale = GRAVITY_DEFAULT
-		if current_adaptation != "CALMA":
-			message = "⛰️ La montaña recupera la calma y te observa."
 
 	current_profile = new_profile
 

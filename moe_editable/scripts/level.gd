@@ -17,6 +17,7 @@ const EchoShadowScene = preload("res://moe_editable/prefabs/shadow.tscn")
 @onready var notice: Label = $HUD/Notice
 @onready var win_panel: Panel = $HUD/WinPanel
 @onready var win_label: Label = $HUD/WinPanel/WinText
+@onready var btn_main_menu: Button = $HUD/BtnMainMenu
 
 var telemetry = TelemetryManagerScript.new()
 var shadow: EchoShadow = null
@@ -29,7 +30,7 @@ var runes := 0
 var echoes := 0
 var deaths := 0
 var elapsed := 0.0
-var note_time := 6.0
+var note_time := 0.0
 var finished := false
 var paused := false
 var debug_visible := false
@@ -42,6 +43,19 @@ func _ready() -> void:
 	get_window().content_scale_size = Vector2i(800, 450)
 	get_window().content_scale_mode = Window.CONTENT_SCALE_MODE_CANVAS_ITEMS
 	get_window().content_scale_aspect = Window.CONTENT_SCALE_ASPECT_KEEP
+	
+	if has_node("HUD/Title"):
+		$HUD/Title.hide()
+	if has_node("HUD/Subtitle"):
+		$HUD/Subtitle.hide()
+	if has_node("HUD/Objective"):
+		$HUD/Objective.hide()
+	if has_node("HUD/BottomPanel"):
+		$HUD/BottomPanel.hide()
+	if has_node("HUD/Controls"):
+		$HUD/Controls.hide()
+	if btn_main_menu and not btn_main_menu.pressed.is_connected(_return_to_main_menu):
+		btn_main_menu.pressed.connect(_return_to_main_menu)
 	
 	_register_input()
 	player.fall_limit = fall_limit
@@ -74,9 +88,22 @@ func _ready() -> void:
 	# Instanciar la Sombra Echo [ENM-02]
 	_setup_shadow()
 	
-	$HUD/Subtitle.text = level_title
-	_show_note("Recoge las %d runas y alcanza el santuario." % total_runes, 6)
-	$HUD/Objective.text = "Recupera las runas para despertar el santuario"
+	# Posicionar según zona elegida en Selección de Niveles
+	if "start_checkpoint_index" in player:
+		if player.start_checkpoint_index == 1:
+			player.global_position = Vector2(1410, 320)
+			player.spawn = Vector2(1410, 320)
+			level_title = "02 / VALLE DE LA SOMBRA DEL ECO"
+		elif player.start_checkpoint_index == 2:
+			player.global_position = Vector2(2620, 304)
+			player.spawn = Vector2(2620, 304)
+			level_title = "03 / EL SANTUARIO DE LA CUMBRE"
+		else:
+			level_title = "01 / EL PASO DE LOS GUARDIANES"
+		if player.camera:
+			player.camera.reset_smoothing()
+	
+	notice.text = ""
 	win_panel.hide()
 	
 	if DisplayServer.get_name() != "headless":
@@ -91,8 +118,6 @@ func _setup_shadow() -> void:
 		shadow.deactivate_x = 3850.0 # Se retira ante la entrada al santuario
 		shadow.delay = 2.2
 		shadow.set_target(player)
-		shadow.awakened.connect(func(): _show_note("⚠️ Tu Sombra del Eco despierta tras tus pasos...", 4.0))
-		shadow.vanished.connect(func(): _show_note("✨ La Sombra se disipa en la ventisca.", 3.0))
 		add_child(shadow)
 
 func _register_input() -> void:
@@ -140,11 +165,9 @@ func _on_stomp() -> void:
 	telemetry.record_stomp()
 	_play(preload("res://assets/audio/sounds/explosion.wav"))
 
-func _on_adaptation_triggered(state_name: String, message: String, target_gravity_scale: float) -> void:
+func _on_adaptation_triggered(state_name: String, _message: String, target_gravity_scale: float) -> void:
 	if is_instance_valid(player):
 		player.target_gravity_scale = target_gravity_scale
-	if message != "":
-		_show_note(message, 4.5)
 	if has_node("Backdrop/Background"):
 		var bg = $Backdrop/Background
 		if state_name == "VIENTO GÉLIDO":
@@ -161,11 +184,15 @@ func _on_item_entered(body: Node2D, item: Area2D) -> void:
 		"rune":
 			item.activate()
 			runes += 1
+			if "saved_runes" in player:
+				player.saved_runes = maxi(player.saved_runes, runes)
 			_play(preload("res://moe_editable/audio/power_up.wav"))
-			_show_note("Runa recuperada · %d / %d" % [runes, total_runes], 3)
+			_show_note("Runa recuperada · x%d" % runes, 2.5)
 		"echo":
 			item.activate()
 			echoes += 1
+			if "saved_echoes" in player:
+				player.saved_echoes = maxi(player.saved_echoes, echoes)
 			_play(preload("res://moe_editable/audio/coin.wav"))
 		"checkpoint":
 			item.activate()
@@ -177,7 +204,7 @@ func _on_item_entered(body: Node2D, item: Area2D) -> void:
 			if runes == total_runes:
 				_finish()
 			else:
-				_show_note("Faltan %d runas. Vuelve a buscarlas." % (total_runes - runes), 4)
+				_show_note("Aún faltan runas por despertar en la montaña.", 3.5)
 
 func _on_hurt() -> void:
 	deaths += 1
@@ -199,15 +226,19 @@ func _show_note(text: String, duration: float) -> void:
 	note_time = duration
 
 func _update_hud() -> void:
-	var dash_indicator := "DASH: LISTO" if (is_instance_valid(player) and player.cooldown <= 0) else "DASH: ..."
-	stats.text = "RUNAS %d/%d   ECOS %02d/%d   %s   %02d:%02d" % [
-		runes, total_runes, echoes, total_echoes, dash_indicator, int(elapsed) / 60, int(elapsed) % 60
-	]
+	stats.text = "◆ Runas x%d   ✦ Ecos x%d" % [runes, echoes]
 	if debug_visible:
 		$HUD/Debug.text = telemetry.get_debug_text() + "\n" + \
 			"IA Guardianes: WANDER (explora) · SEEK (persigue) · STUNNED (aturdido)"
 
+func _return_to_main_menu() -> void:
+	paused = false
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://moe_editable/ui/main_menu.tscn")
+
 func _unhandled_key_input(event: InputEvent) -> void:
+	if has_node("CatcadeOverlay"):
+		return
 	if event.is_action_pressed("moee_debug"):
 		debug_visible = not debug_visible
 		$HUD/Debug.visible = debug_visible
@@ -228,17 +259,25 @@ func _unhandled_key_input(event: InputEvent) -> void:
 			guardian.set_physics_process(not paused)
 		if is_instance_valid(shadow):
 			shadow.set_physics_process(not paused)
-		_show_note("PAUSA · Esc para continuar" if paused else "Continúa el ascenso.", 999 if paused else 2)
+		_show_note("PAUSA · [ESC] Continuar · [Q] Menú Principal" if paused else "", 999 if paused else 0.1)
+	if event is InputEventKey and event.pressed and not event.echo:
+		var k: int = event.keycode if event.keycode != 0 else event.physical_keycode
+		if k == KEY_Q and (paused or finished):
+			get_viewport().set_input_as_handled()
+			_return_to_main_menu()
 
 func _finish() -> void:
 	finished = true
 	player.locked = true
+	if "saved_runes" in player:
+		player.saved_runes = maxi(player.saved_runes, runes)
+		player.saved_echoes = maxi(player.saved_echoes, echoes)
 	for guardian in guardians:
 		guardian.set_physics_process(false)
 	if is_instance_valid(shadow):
 		shadow.deactivate_shadow()
 	win_panel.show()
-	win_label.text = "EL ECO HA DESPERTADO\n\nSantuario restaurado · Nivel completado\n\nTiempo %02d:%02d  ·  Ecos %d/%d  ·  Reintentos %d\nEstilo de juego: %s\n\n[R] para volver a ascender" % [
-		int(elapsed) / 60, int(elapsed) % 60, echoes, total_echoes, deaths, telemetry.current_profile
+	win_label.text = "EL ECO HA DESPERTADO\n\nSantuario restaurado · Nivel completado\n\nTiempo %02d:%02d  ·  Runas x%d  ·  Ecos x%d  ·  Reintentos %d\nEstilo de juego: %s\n\n[R] Volver a ascender   ·   [Q] Menú Principal" % [
+		int(elapsed) / 60, int(elapsed) % 60, runes, echoes, deaths, telemetry.current_profile
 	]
 	_play(preload("res://moe_editable/audio/power_up.wav"))

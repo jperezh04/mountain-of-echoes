@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://moe_editable/prefabs/exit.tscn" id="13_a15dj"]
 [ext_resource type="AudioStream" uid="uid://degobcs82t41s" path="res://moe_editable/audio/music.ogg" id="14_y7ywp"]
 [ext_resource type="AudioStream" uid="uid://4ck8ftg7dimo" path="res://moe_editable/audio/jump.wav" id="15_2ufai"]
+[ext_resource type="PackedScene" path="res://moe_editable/prefabs/arcade_machine.tscn" id="16_arcade"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_revrb"]
 bg_color = Color(0.045, 0.09, 0.15, 0.92)
@@ -180,6 +181,9 @@ position = Vector2(3920, 175)
 [node name="Objects" type="Node2D" parent="." unique_id=2130162763]
 z_index = 2
 
+[node name="ArcadeMachine" parent="Objects" unique_id=384729101 instance=ExtResource("16_arcade")]
+position = Vector2(460, 384)
+
 [node name="Refuge00" parent="Objects" unique_id=2128113250 instance=ExtResource("9_h8n7t")]
 position = Vector2(100, 384)
 
@@ -291,14 +295,15 @@ layer = 10
 visible = false
 
 [node name="TopPanel" type="Panel" parent="HUD" unique_id=364159399]
-offset_left = 16.0
-offset_top = 14.0
-offset_right = 784.0
-offset_bottom = 71.0
+offset_left = 14.0
+offset_top = 12.0
+offset_right = 204.0
+offset_bottom = 42.0
 mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_revrb")
 
 [node name="Title" type="Label" parent="HUD" unique_id=1068545461]
+visible = false
 offset_left = 30.0
 offset_top = 21.0
 offset_right = 30.0
@@ -308,6 +313,7 @@ theme_override_font_sizes/font_size = 17
 text = "MOUNTAIN OF ECHOES"
 
 [node name="Subtitle" type="Label" parent="HUD" unique_id=568315549]
+visible = false
 offset_left = 30.0
 offset_top = 44.0
 offset_right = 30.0
@@ -317,15 +323,16 @@ theme_override_font_sizes/font_size = 11
 text = "01 / EL PASO DE LOS GUARDIANES"
 
 [node name="Stats" type="Label" parent="HUD" unique_id=361923467]
-offset_left = 395.0
-offset_top = 24.0
-offset_right = 395.0
-offset_bottom = 24.0
+offset_left = 26.0
+offset_top = 17.0
+offset_right = 196.0
+offset_bottom = 37.0
 theme_override_colors/font_color = Color(0.84705883, 0.92941177, 0.9529412, 1)
-theme_override_font_sizes/font_size = 14
-text = "RUNAS 0/3    ECOS 00/24"
+theme_override_font_sizes/font_size = 13
+text = "◆ Runas x0   ✦ Ecos x0"
 
 [node name="Objective" type="Label" parent="HUD" unique_id=1576070367]
+visible = false
 offset_left = 395.0
 offset_top = 46.0
 offset_right = 395.0
@@ -334,7 +341,24 @@ theme_override_colors/font_color = Color(0.84705883, 0.92941177, 0.9529412, 1)
 theme_override_font_sizes/font_size = 10
 text = "Despierta el santuario"
 
+[node name="BtnMainMenu" type="Button" parent="HUD" unique_id=1984712301]
+process_mode = 3
+offset_left = 682.0
+offset_top = 12.0
+offset_right = 786.0
+offset_bottom = 42.0
+focus_mode = 0
+mouse_default_cursor_shape = 2
+theme_override_colors/font_color = Color(0.84705883, 0.92941177, 0.9529412, 1)
+theme_override_colors/font_hover_color = Color(0.4, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 12
+theme_override_styles/normal = SubResource("StyleBoxFlat_revrb")
+theme_override_styles/hover = SubResource("StyleBoxFlat_revrb")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_revrb")
+text = "← MENÚ"
+
 [node name="BottomPanel" type="Panel" parent="HUD" unique_id=712385357]
+visible = false
 offset_left = 16.0
 offset_top = 414.0
 offset_right = 784.0
@@ -343,6 +367,7 @@ mouse_filter = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m1r1a")
 
 [node name="Controls" type="Label" parent="HUD" unique_id=212884577]
+visible = false
 offset_left = 28.0
 offset_top = 419.0
 offset_right = 28.0
@@ -353,9 +378,9 @@ text = "A/D o ←/→ mover   ESPACIO saltar   SHIFT dash   R refugio   F3 IA   
 
 [node name="Notice" type="Label" parent="HUD" unique_id=2138834652]
 offset_left = 20.0
-offset_top = 84.0
+offset_top = 52.0
 offset_right = 780.0
-offset_bottom = 107.0
+offset_bottom = 75.0
 theme_override_colors/font_color = Color(0.84705883, 0.92941177, 0.9529412, 1)
 theme_override_font_sizes/font_size = 14
 horizontal_alignment = 1

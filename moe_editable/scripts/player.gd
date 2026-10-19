@@ -32,11 +32,89 @@ var shake_intensity := 0.0
 var shake_timer := 0.0
 var ghost_timer := 0.0
 var was_on_floor := true
+static var cat_skin_unlocked := false
+static var start_checkpoint_index := 0
+static var saved_runes := 0
+static var saved_echoes := 0
+var has_cat_skin := false
+var _default_frames: SpriteFrames = null
 
 func _ready() -> void:
 	spawn = global_position
-	if sprite.sprite_frames and sprite.sprite_frames.has_animation("idle"):
+	if sprite:
+		_default_frames = sprite.sprite_frames
+	if cat_skin_unlocked:
+		apply_cat_skin()
+	elif sprite and sprite.sprite_frames and sprite.sprite_frames.has_animation("idle"):
 		sprite.play("idle")
+
+func apply_panda_skin() -> void:
+	cat_skin_unlocked = false
+	has_cat_skin = false
+	if sprite and _default_frames:
+		sprite.sprite_frames = _default_frames
+		sprite.scale = Vector2(2.0, 2.0)
+		sprite.position = Vector2(0, -32)
+		sprite.play("idle")
+
+func apply_cat_skin() -> void:
+	cat_skin_unlocked = true
+	has_cat_skin = true
+	var tex_path := "res://moe_editable/art/nyanko_ranger_skin.png"
+	if not ResourceLoader.exists(tex_path) or not sprite:
+		return
+	var sheet: Texture2D = load(tex_path)
+	if not sheet:
+		return
+
+	var frames := SpriteFrames.new()
+	if frames.has_animation("default"):
+		frames.remove_animation("default")
+
+	# Row 0: idle (8 frames of 64x64)
+	frames.add_animation("idle")
+	frames.set_animation_speed("idle", 9.0)
+	frames.set_animation_loop("idle", true)
+	for i in range(8):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(i * 64, 0, 64, 64)
+		frames.add_frame("idle", atlas)
+
+	# Row 2: run (8 frames of 64x64)
+	frames.add_animation("run")
+	frames.set_animation_speed("run", 12.0)
+	frames.set_animation_loop("run", true)
+	for i in range(8):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(i * 64, 128, 64, 64)
+		frames.add_frame("run", atlas)
+
+	# Row 3: dash / sword slash (8 frames of 64x64)
+	frames.add_animation("dash")
+	frames.set_animation_speed("dash", 16.0)
+	frames.set_animation_loop("dash", false)
+	for i in range(8):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(i * 64, 192, 64, 64)
+		frames.add_frame("dash", atlas)
+
+	# Row 4: hurt (4 frames of 64x64)
+	frames.add_animation("hurt")
+	frames.set_animation_speed("hurt", 8.0)
+	frames.set_animation_loop("hurt", false)
+	for i in range(4):
+		var atlas := AtlasTexture.new()
+		atlas.atlas = sheet
+		atlas.region = Rect2(i * 64, 256, 64, 64)
+		frames.add_frame("hurt", atlas)
+
+	sprite.sprite_frames = frames
+	sprite.scale = Vector2(1.0, 1.0)
+	sprite.position = Vector2(0, -32)
+	sprite.play("idle")
 
 func shake_camera(intensity: float = 4.0, duration: float = 0.2) -> void:
 	shake_intensity = intensity

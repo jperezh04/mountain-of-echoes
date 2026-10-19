@@ -1,0 +1,59 @@
+[gd_scene load_steps=6 format=3 uid="uid://bcatcadeproj1"]
+
+[ext_resource type="Script" path="res://moe_editable/minigames/catcade/scripts/cat_projectile.gd" id="1_script"]
+[ext_resource type="Texture2D" path="res://moe_editable/minigames/catcade/assets/cats/cat_normal_idle.png" id="2_tex"]
+[ext_resource type="AudioStream" path="res://moe_editable/minigames/catcade/assets/audio/impact_wood.wav" id="3_hit"]
+[ext_resource type="AudioStream" path="res://moe_editable/minigames/catcade/assets/audio/cat_boost.wav" id="4_skill"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_1"]
+radius = 14.0
+
+[node name="CatProjectile" type="RigidBody2D"]
+z_index = 5
+collision_layer = 16
+collision_mask = 16
+continuous_cd = 1
+contact_monitor = true
+max_contacts_reported = 6
+script = ExtResource("1_script")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.85, 0.85)
+texture = ExtResource("2_tex")
+
+[node name="TrailParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 18
+lifetime = 0.45
+local_coords = false
+emission_shape = 1
+emission_sphere_radius = 4.0
+gravity = Vector2(0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(1, 0.96, 0.8, 0.75)
+
+[node name="ImpactParticles" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 14
+lifetime = 0.35
+one_shot = true
+explosiveness = 0.9
+spread = 180.0
+gravity = Vector2(0, 200)
+initial_velocity_min = 45.0
+initial_velocity_max = 110.0
+scale_amount_min = 2.5
+scale_amount_max = 4.5
+color = Color(1, 0.9, 0.4, 0.9)
+
+[node name="SfxHit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_hit")
+volume_db = -5.0
+
+[node name="SfxSkill" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_skill")
+volume_db = -4.0

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://drxmr647aypnm"
+path="res://.godot/imported/Arpa de Abel.mp3-8fa54cba7e68ef3e2c97320c4c3fa205.mp3str"
+
+[deps]
+
+source_file="res://Arpa de Abel.mp3"
+dest_files=["res://.godot/imported/Arpa de Abel.mp3-8fa54cba7e68ef3e2c97320c4c3fa205.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
