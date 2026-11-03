@@ -4,6 +4,7 @@ signal hurt
 signal jumped
 signal dashed
 signal stomped
+signal shield_broken
 
 @export_range(50, 600) var speed := 260.0
 @export_range(100, 900) var jump_speed := 490.0
@@ -33,20 +34,27 @@ var shake_timer := 0.0
 var ghost_timer := 0.0
 var was_on_floor := true
 static var cat_skin_unlocked := false
+static var shield_unlocked := false
 static var start_checkpoint_index := 0
 static var saved_runes := 0
 static var saved_echoes := 0
 var has_cat_skin := false
+var shield_active := false
 var _default_frames: SpriteFrames = null
 
 func _ready() -> void:
 	spawn = global_position
+	shield_active = shield_unlocked
 	if sprite:
 		_default_frames = sprite.sprite_frames
 	if cat_skin_unlocked:
 		apply_cat_skin()
 	elif sprite and sprite.sprite_frames and sprite.sprite_frames.has_animation("idle"):
 		sprite.play("idle")
+
+func recharge_shield() -> void:
+	if shield_unlocked:
+		shield_active = true
 
 func apply_panda_skin() -> void:
 	cat_skin_unlocked = false
@@ -237,6 +245,13 @@ func _spawn_dash_ghost() -> void:
 
 func take_hit(force := false) -> void:
 	if locked or (not force and (invulnerable > 0 or dash_time > 0)):
+		return
+	if not force and shield_active:
+		shield_active = false
+		invulnerable = 1.6
+		velocity = Vector2(-facing * 150.0, -260.0)
+		shake_camera(4.5, 0.2)
+		shield_broken.emit()
 		return
 	global_position = spawn
 	velocity = Vector2.ZERO

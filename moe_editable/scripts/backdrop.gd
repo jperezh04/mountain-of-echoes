@@ -38,4 +38,3 @@ func _draw() -> void:
 		var x := fposmod(flake.x + elapsed * 14 * flake.z * wind_factor - camera_x * 0.07, 820) - 10
 		var y := fposmod(flake.y + elapsed * 22 * flake.z * (0.8 + 0.2 * wind_factor), 450)
 		draw_rect(Rect2(x, y, flake.z * 2, flake.z * 2), Color(0.85, 0.96, 1, 0.5))
-

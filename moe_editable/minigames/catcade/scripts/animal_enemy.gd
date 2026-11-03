@@ -16,6 +16,7 @@ var is_defeated: bool = false
 var wobble_time: float = 0.0
 var startup_grace: float = 0.45
 var base_scale: Vector2 = Vector2(0.85, 0.85)
+static var combat_active: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -28,6 +29,8 @@ func _ready() -> void:
 	max_contacts_reported = 6
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_SHAPE
 	can_sleep = true
+	linear_damp = 0.8
+	angular_damp = 4.0
 	wobble_time = randf() * TAU
 
 	_configure_enemy_type()
@@ -94,11 +97,11 @@ func _physics_process(delta: float) -> void:
 		)
 
 	# Out of bounds or knocked off the platform
-	if global_position.y > 360.0 or global_position.x > 660.0 or global_position.x < -30.0:
+	if combat_active and (global_position.y > 360.0 or global_position.x > 660.0 or global_position.x < -30.0):
 		take_damage(9999.0)
 
 func _on_body_entered(body: Node) -> void:
-	if is_defeated or startup_grace > 0.0:
+	if is_defeated or startup_grace > 0.0 or not combat_active:
 		return
 
 	var rel_speed: float = linear_velocity.length()

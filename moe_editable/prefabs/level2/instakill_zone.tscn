@@ -1,0 +1,22 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_8ex85"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4h72h"]
+size = Vector2(36, 36)
+
+[node name="InstakillZone" type="Area2D" unique_id=585371440]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_8ex85")
+kind = "instakill_zone"
+
+[node name="Visual" type="Node2D" parent="." unique_id=1402824298]
+
+[node name="ShapeHint" type="Polygon2D" parent="Visual" unique_id=1571647007]
+color = Color(0.92, 0.16, 0.34, 0.24)
+polygon = PackedVector2Array(-18, -18, 18, -18, 18, 18, -18, 18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=522812011]
+shape = SubResource("RectangleShape2D_4h72h")

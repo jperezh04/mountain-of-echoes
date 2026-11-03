@@ -15,6 +15,7 @@ enum BlockShape { BEAM_H, BEAM_V, BOX, TRIANGLE }
 var current_hp: float = 55.0
 var is_destroyed: bool = false
 var startup_grace: float = 0.45
+static var combat_active: bool = false
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
@@ -26,6 +27,8 @@ func _ready() -> void:
 	max_contacts_reported = 6
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_SHAPE
 	can_sleep = true
+	linear_damp = 0.35
+	angular_damp = 2.5
 
 	var phys_mat := PhysicsMaterial.new()
 	match material_type:
@@ -56,7 +59,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if startup_grace > 0.0:
 		startup_grace -= delta
-	if global_position.y > 420.0 and not is_destroyed:
+	if combat_active and global_position.y > 420.0 and not is_destroyed:
 		_destroy()
 
 func _apply_visuals() -> void:
@@ -127,7 +130,7 @@ func _apply_visuals() -> void:
 		collision_shape.shape = rect
 
 func _on_body_entered(body: Node) -> void:
-	if is_destroyed or startup_grace > 0.0:
+	if is_destroyed or startup_grace > 0.0 or not combat_active:
 		return
 	var rel_speed: float = linear_velocity.length()
 	var impact_mult: float = 1.0

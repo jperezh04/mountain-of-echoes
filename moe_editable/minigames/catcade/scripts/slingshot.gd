@@ -45,7 +45,7 @@ func _input(event: InputEvent) -> void:
 		if event.pressed and not is_dragging:
 			var dist_to_cat: float = mouse_pos.distance_to(current_cat.global_position)
 			var dist_to_anchor: float = mouse_pos.distance_to(anchor_point.global_position)
-			if dist_to_cat <= 68.0 or dist_to_anchor <= 75.0:
+			if dist_to_cat <= 95.0 or dist_to_anchor <= 95.0:
 				is_dragging = true
 				current_cat.set_state(CatProjectile.State.AIMING)
 				if sfx_stretch and not sfx_stretch.playing:
@@ -65,6 +65,11 @@ func _process(_delta: float) -> void:
 		is_dragging = false
 		_reset_bands()
 		return
+	if anchor_point:
+		var cat_pos: Vector2 = anchor_point.global_position + current_pull_vector
+		cat_pos.y = minf(cat_pos.y, 295.0)
+		current_cat.global_position = cat_pos
+		PhysicsServer2D.body_set_state(current_cat.get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, Transform2D(current_cat.rotation, cat_pos))
 
 func _update_drag(mouse_pos: Vector2) -> void:
 	if not current_cat or not anchor_point:
@@ -82,16 +87,18 @@ func _update_drag(mouse_pos: Vector2) -> void:
 
 	current_cat.global_position = cat_pos
 	var stretch_ratio: float = clampf(current_pull_vector.length() / max_pull_distance, 0.0, 1.0)
-	current_cat.apply_aim_deformation(stretch_ratio, -current_pull_vector.angle())
+	current_cat.apply_aim_deformation(stretch_ratio, -current_pull_vector.angle(), cat_pos)
 
 	_update_bands(cat_pos)
 
 	if current_pull_vector.length() >= min_pull_distance:
 		var launch_vel: Vector2 = calculate_launch_velocity()
-		var damp: float = current_cat.linear_damp if current_cat.linear_damp > 0.0 else 0.05
+		var damp: float = current_cat.linear_damp if current_cat.linear_damp >= 0.0 else 0.05
+		var default_grav: float = float(ProjectSettings.get_setting("physics/2d/default_gravity", 980.0))
+		var real_grav: float = default_grav * current_cat.gravity_scale
 		var traj_start := Vector2(cat_pos.x, minf(cat_pos.y, 262.0))
 		if predictor:
-			predictor.update_trajectory(traj_start, launch_vel, gravity_value * current_cat.gravity_scale, damp)
+			predictor.update_trajectory(traj_start, launch_vel, real_grav, damp)
 	else:
 		if predictor:
 			predictor.clear_trajectory()
@@ -114,10 +121,11 @@ func _release_slingshot() -> void:
 	if current_pull_vector.length() >= min_pull_distance:
 		var launch_vel: Vector2 = calculate_launch_velocity()
 		var launched_cat: CatProjectile = current_cat
+		var launch_origin: Vector2 = launched_cat.global_position
 		current_cat = null
 		if sfx_launch:
 			sfx_launch.play()
-		launched_cat.launch(launch_vel)
+		launched_cat.launch(launch_vel, launch_origin)
 		cat_launched.emit(launched_cat, launch_vel)
 	else:
 		current_cat.prepare_on_slingshot(anchor_point.global_position)

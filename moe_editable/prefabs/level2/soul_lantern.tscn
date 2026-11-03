@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_d6y8j"]
+[ext_resource type="Texture2D" path="res://moe_editable/art/cave_topdown_tileset.png" id="2_li1xr"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s02jv"]
+atlas = ExtResource("2_li1xr")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cok3t"]
+radius = 13.0
+
+[node name="SoulLantern" type="Area2D" unique_id=39424272]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_d6y8j")
+kind = "soul_lantern"
+
+[node name="Visual" type="Node2D" parent="." unique_id=1225456550]
+
+[node name="IconSprite" type="Sprite2D" parent="Visual" unique_id=1534231455]
+texture = SubResource("AtlasTexture_s02jv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=170536255]
+shape = SubResource("CircleShape2D_cok3t")
+
+[node name="GlowLight" type="PointLight2D" parent="." unique_id=2067463067]
+energy = 0.9

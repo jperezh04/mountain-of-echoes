@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_2dfhk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x40qc"]
+size = Vector2(34, 34)
+
+[node name="AscentExit" type="Area2D" unique_id=1116622745]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_2dfhk")
+kind = "ascent_exit"
+
+[node name="Visual" type="Node2D" parent="." unique_id=277115980]
+
+[node name="ShapeHint" type="Polygon2D" parent="Visual" unique_id=594422022]
+color = Color(0.55, 0.92, 1, 0.22)
+polygon = PackedVector2Array(-18, -18, 18, -18, 18, 18, -18, 18)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1785593961]
+shape = SubResource("RectangleShape2D_x40qc")
+
+[node name="GlowLight" type="PointLight2D" parent="." unique_id=549832218]
+energy = 0.9

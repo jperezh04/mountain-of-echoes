@@ -109,6 +109,8 @@ func load_level(idx: int) -> void:
 	current_score = 0
 	active_enemies = 0
 	active_cat = null
+	AnimalEnemy.combat_active = false
+	DestructibleBlock.combat_active = false
 
 	if result_panel:
 		result_panel.visible = false
@@ -191,6 +193,8 @@ func _spawn_next_cat() -> void:
 		lbl_hint.text = "Arrastra al Gato y suelta para disparar | Click en vuelo: Mordisco Turbo | [R] Reiniciar | [Q] Salir"
 
 func _on_cat_launched(_cat: CatProjectile, _vel: Vector2) -> void:
+	AnimalEnemy.combat_active = true
+	DestructibleBlock.combat_active = true
 	_update_hud()
 
 func _on_cat_skill_activated(_cat: CatProjectile) -> void:

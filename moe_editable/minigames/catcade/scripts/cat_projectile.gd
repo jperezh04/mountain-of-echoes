@@ -40,6 +40,7 @@ func _ready() -> void:
 	max_contacts_reported = 6
 	continuous_cd = RigidBody2D.CCD_MODE_CAST_RAY
 	can_sleep = false
+	linear_damp_mode = RigidBody2D.DAMP_MODE_REPLACE
 	linear_damp = 0.05
 	angular_damp = 0.8
 
@@ -49,6 +50,8 @@ func _ready() -> void:
 
 func _configure_cat_type() -> void:
 	var phys_mat := PhysicsMaterial.new()
+	var default_grav: float = float(ProjectSettings.get_setting("physics/2d/default_gravity", 980.0))
+	var base_grav_scale: float = 520.0 / default_grav
 	tex_idle = load("res://moe_editable/minigames/catcade/assets/cats/cat_normal_idle.png")
 	tex_aim = load("res://moe_editable/minigames/catcade/assets/cats/cat_normal_aim.png")
 	tex_fly = load("res://moe_editable/minigames/catcade/assets/cats/cat_normal_fly.png")
@@ -58,19 +61,19 @@ func _configure_cat_type() -> void:
 	match cat_type:
 		CatType.NORMAL:
 			mass = 2.0
-			gravity_scale = 1.0
+			gravity_scale = base_grav_scale * 1.0
 			damage_multiplier = 1.25
 			phys_mat.bounce = 0.32
 			phys_mat.friction = 0.55
 		CatType.TANK:
 			mass = 3.8
-			gravity_scale = 1.08
+			gravity_scale = base_grav_scale * 1.08
 			damage_multiplier = 2.1
 			phys_mat.bounce = 0.18
 			phys_mat.friction = 0.75
 		CatType.ROCKET:
 			mass = 1.8
-			gravity_scale = 0.95
+			gravity_scale = base_grav_scale * 0.95
 			damage_multiplier = 1.45
 			phys_mat.bounce = 0.35
 			phys_mat.friction = 0.45
@@ -96,17 +99,19 @@ func prepare_on_slingshot(anchor_pos: Vector2) -> void:
 		trail_particles.emitting = false
 	set_state(State.WAITING)
 
-func apply_aim_deformation(stretch_ratio: float, aim_angle: float) -> void:
+func apply_aim_deformation(stretch_ratio: float, aim_angle: float, target_pos: Vector2 = Vector2.INF) -> void:
 	set_state(State.AIMING)
 	rotation = clampf(aim_angle, -0.65, 0.65)
+	if target_pos != Vector2.INF:
+		global_position = target_pos
+		PhysicsServer2D.body_set_state(get_rid(), PhysicsServer2D.BODY_STATE_TRANSFORM, Transform2D(rotation, target_pos))
 	if sprite:
 		var sx: float = 0.85 * (1.0 + stretch_ratio * 0.18)
 		var sy: float = 0.85 * (1.0 - stretch_ratio * 0.12)
 		sprite.scale = Vector2(sx, sy)
 
-func launch(initial_velocity: Vector2) -> void:
-	var start_pos: Vector2 = global_position
-	start_pos.y = minf(start_pos.y, 262.0)
+func launch(initial_velocity: Vector2, launch_origin: Vector2) -> void:
+	var start_pos := Vector2(launch_origin.x, minf(launch_origin.y, 262.0))
 	global_position = start_pos
 	if sprite:
 		sprite.scale = Vector2(0.85, 0.85)

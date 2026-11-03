@@ -81,6 +81,8 @@ func _ready() -> void:
 	player.jumped.connect(_on_jump)
 	player.dashed.connect(_on_dash)
 	player.stomped.connect(_on_stomp)
+	if player.has_signal("shield_broken"):
+		player.shield_broken.connect(_on_shield_broken)
 	
 	# Conexión con el sistema de telemetría y adaptación
 	telemetry.adaptation_triggered.connect(_on_adaptation_triggered)
@@ -198,13 +200,73 @@ func _on_item_entered(body: Node2D, item: Area2D) -> void:
 			item.activate()
 			active_checkpoint = item
 			player.spawn = item.global_position
+			if player.has_method("recharge_shield"):
+				player.recharge_shield()
 			_play(preload("res://moe_editable/audio/power_up.wav"))
 			_show_note("Refugio activado. La montaña guarda tu avance.", 3)
 		"exit":
-			if runes == total_runes:
+			if "start_checkpoint_index" in player and player.start_checkpoint_index == 0:
+				_trigger_entrance_collapse()
+			elif runes == total_runes or ("start_checkpoint_index" in player and player.start_checkpoint_index == 2 and runes >= 1):
 				_finish()
 			else:
 				_show_note("Aún faltan runas por despertar en la montaña.", 3.5)
+
+func _on_shield_broken() -> void:
+	_play(preload("res://assets/audio/sounds/explosion.wav"))
+	_show_note("🛡 El Amuleto de tu hermano absorbió el golpe.", 3.0)
+
+func _trigger_entrance_collapse() -> void:
+	if finished:
+		return
+	finished = true
+	player.locked = true
+	if "saved_runes" in player:
+		player.saved_runes = maxi(player.saved_runes, runes)
+		player.saved_echoes = maxi(player.saved_echoes, echoes)
+	for guardian in guardians:
+		guardian.set_physics_process(false)
+	if is_instance_valid(shadow):
+		shadow.deactivate_shadow()
+
+	_play(preload("res://assets/audio/sounds/explosion.wav"))
+	if player.has_method("shake_camera"):
+		player.shake_camera(9.0, 1.5)
+	_show_note("¡EL PUENTE DE LA ENTRADA CEDE BAJO TUS PIES!", 4.0)
+
+	# Fragmentos de roca y hielo que caen junto al jugador
+	for i in range(14):
+		var shard := Polygon2D.new()
+		shard.polygon = PackedVector2Array([Vector2(-4, -3), Vector2(5, -2), Vector2(3, 4), Vector2(-3, 5)])
+		shard.color = Color(0.55, 0.72, 0.88, 0.95) if i % 2 == 0 else Color(0.24, 0.26, 0.36, 0.95)
+		shard.global_position = player.global_position + Vector2(randf_range(-36.0, 36.0), randf_range(-8.0, 14.0))
+		shard.z_index = 8
+		add_child(shard)
+		var stw := create_tween()
+		stw.set_parallel(true)
+		stw.tween_property(shard, "global_position", shard.global_position + Vector2(randf_range(-28.0, 28.0), randf_range(260.0, 420.0)), 1.25).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+		stw.tween_property(shard, "rotation", randf_range(-5.0, 5.0), 1.25)
+
+	var curtain := ColorRect.new()
+	curtain.color = Color(0.02, 0.02, 0.05, 0.0)
+	curtain.set_anchors_preset(Control.PRESET_FULL_RECT)
+	curtain.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	$HUD.add_child(curtain)
+
+	var fall_tw := create_tween()
+	fall_tw.tween_interval(0.28)
+	fall_tw.tween_callback(func() -> void:
+		if is_instance_valid(ground):
+			ground.collision_enabled = false
+		_play(preload("res://moe_editable/audio/hurt.wav"))
+	)
+	fall_tw.tween_property(player, "global_position:y", player.global_position.y + 380.0, 1.15).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	fall_tw.parallel().tween_property(curtain, "color:a", 1.0, 1.05)
+	fall_tw.tween_interval(0.2)
+	fall_tw.tween_callback(func() -> void:
+		if ResourceLoader.exists("res://moe_editable/shadow_abyss_level.tscn"):
+			get_tree().change_scene_to_file("res://moe_editable/shadow_abyss_level.tscn")
+	)
 
 func _on_hurt() -> void:
 	deaths += 1
@@ -226,7 +288,10 @@ func _show_note(text: String, duration: float) -> void:
 	note_time = duration
 
 func _update_hud() -> void:
-	stats.text = "◆ Runas x%d   ✦ Ecos x%d" % [runes, echoes]
+	var shield_tag := "   🛡" if ("shield_active" in player and player.shield_active) else ""
+	stats.text = "◆ Runas x%d   ✦ Ecos x%d%s" % [runes, echoes, shield_tag]
+	if has_node("HUD/TopPanel"):
+		$HUD/TopPanel.offset_right = 236.0 if shield_tag != "" else 204.0
 	if debug_visible:
 		$HUD/Debug.text = telemetry.get_debug_text() + "\n" + \
 			"IA Guardianes: WANDER (explora) · SEEK (persigue) · STUNNED (aturdido)"

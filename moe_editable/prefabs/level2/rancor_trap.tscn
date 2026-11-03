@@ -1,0 +1,29 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_mdy0r"]
+[ext_resource type="Texture2D" path="res://moe_editable/art/cave_topdown_tileset.png" id="2_cu8bi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_du51u"]
+atlas = ExtResource("2_cu8bi")
+region = Rect2(128, 48, 16, 16)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5c1ok"]
+radius = 11.5
+
+[node name="RancorTrap" type="Area2D" unique_id=240216500]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_mdy0r")
+kind = "rancor_trap"
+
+[node name="Visual" type="Node2D" parent="." unique_id=78419088]
+
+[node name="IconSprite" type="Sprite2D" parent="Visual" unique_id=1754805651]
+texture = SubResource("AtlasTexture_du51u")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1564837793]
+shape = SubResource("CircleShape2D_5c1ok")
+
+[node name="GlowLight" type="PointLight2D" parent="." unique_id=1382160717]
+energy = 0.9

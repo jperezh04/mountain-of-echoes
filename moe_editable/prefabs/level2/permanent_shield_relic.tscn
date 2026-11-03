@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_0u1vx"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_28y28"]
+radius = 13.0
+
+[node name="BrotherAmuletShield" type="Area2D" unique_id=1779085760]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_0u1vx")
+kind = "permanent_shield"
+
+[node name="Visual" type="Node2D" parent="." unique_id=1123645856]
+
+[node name="ShapeHint" type="Polygon2D" parent="Visual" unique_id=255493720]
+color = Color(0.42, 0.94, 1, 0.95)
+polygon = PackedVector2Array(-6, -6, 6, -6, 6, 1, 0, 8, -6, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=344753464]
+shape = SubResource("CircleShape2D_28y28")
+
+[node name="GlowLight" type="PointLight2D" parent="." unique_id=1286339676]
+energy = 0.9

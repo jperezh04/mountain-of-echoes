@@ -1,0 +1,25 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_x07x8"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_8v6uc"]
+radius = 13.0
+
+[node name="EchoBell" type="Area2D" unique_id=586686644]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_x07x8")
+kind = "echo_bell"
+
+[node name="Visual" type="Node2D" parent="." unique_id=1710518127]
+
+[node name="ShapeHint" type="Polygon2D" parent="Visual" unique_id=1604148076]
+color = Color(0.62, 0.9, 1, 0.95)
+polygon = PackedVector2Array(-2, -7, 2, -7, 6, 4, -6, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2019287801]
+shape = SubResource("CircleShape2D_8v6uc")
+
+[node name="GlowLight" type="PointLight2D" parent="." unique_id=1227689034]
+energy = 0.9

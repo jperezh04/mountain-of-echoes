@@ -1,0 +1,27 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://moe_editable/scripts/level2/abyss_interactable.gd" id="1_7q3ti"]
+[ext_resource type="Texture2D" path="res://moe_editable/art/cave_topdown_tileset.png" id="2_7exwf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4j0ad"]
+atlas = ExtResource("2_7exwf")
+region = Rect2(160, 0, 16, 32)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_x3q5w"]
+radius = 24.0
+
+[node name="HideoutStatue" type="Area2D" unique_id=691807504]
+texture_filter = 1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_7q3ti")
+kind = "hideout"
+
+[node name="Visual" type="Node2D" parent="." unique_id=662130793]
+
+[node name="IconSprite" type="Sprite2D" parent="Visual" unique_id=1531485394]
+position = Vector2(0, -8)
+texture = SubResource("AtlasTexture_4j0ad")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1030854883]
+shape = SubResource("CircleShape2D_x3q5w")

@@ -2,6 +2,7 @@ class_name MainMenu
 extends Control
 
 const SNOW_LEVEL_PATH := "res://moe_editable/snow_level.tscn"
+const SHADOW_ABYSS_LEVEL_PATH := "res://moe_editable/shadow_abyss_level.tscn"
 const CATCADE_SCENE := preload("res://moe_editable/minigames/catcade/catcade.tscn")
 const PLAYER_SCRIPT := preload("res://moe_editable/scripts/player.gd")
 
@@ -808,7 +809,8 @@ func _refresh_profile_ui() -> void:
 	if lbl_echoes_main:
 		lbl_echoes_main.text = "◆ x%d" % echoes_cnt
 	if lbl_top_stats_select:
-		lbl_top_stats_select.text = "★ RUNAS x%d   |   ◆ ECOS x%d" % [runes_cnt, echoes_cnt]
+		var shield_txt := "   |   🛡 AMULETO" if PLAYER_SCRIPT.shield_unlocked else ""
+		lbl_top_stats_select.text = "★ RUNAS x%d   |   ◆ ECOS x%d%s" % [runes_cnt, echoes_cnt, shield_txt]
 
 	if use_nyanko:
 		if lbl_skin_name:
@@ -846,7 +848,10 @@ func _start_main_game(zone_index: int) -> void:
 	is_transitioning = true
 	_play_click()
 	PLAYER_SCRIPT.start_checkpoint_index = zone_index
-	get_tree().change_scene_to_file(SNOW_LEVEL_PATH)
+	if zone_index == 1 and ResourceLoader.exists(SHADOW_ABYSS_LEVEL_PATH):
+		get_tree().change_scene_to_file(SHADOW_ABYSS_LEVEL_PATH)
+	else:
+		get_tree().change_scene_to_file(SNOW_LEVEL_PATH)
 
 func _on_level_select_pressed() -> void:
 	_play_click()
